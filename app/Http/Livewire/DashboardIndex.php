@@ -16,8 +16,9 @@ class DashboardIndex extends Component
             'modal_awal' => DB::table('tb_master_data_barang')->sum('harga_beli') * DB::table('tb_master_data_barang')->sum('stok_barang'),
             'history_transaction' => DB::table('tb_master_data_barang')
             ->join('tb_keranjang_belanja', 'tb_master_data_barang.id', '=', 'tb_keranjang_belanja.id_barang')
-            ->select('tb_master_data_barang.kode_barang','tb_keranjang_belanja.jumbel','tb_keranjang_belanja.total')
+            ->select('tb_master_data_barang.kode_barang','tb_keranjang_belanja.jumbel','tb_keranjang_belanja.total','tb_keranjang_belanja.created_at')
             ->where('tb_master_data_barang.kode_barang','like','%'.$this->search.'%')
+            ->orderBy('tb_keranjang_belanja.created_at','DESC')
             ->paginate(5)
         ]);
     }
